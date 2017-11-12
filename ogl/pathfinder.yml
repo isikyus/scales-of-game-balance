@@ -1,0 +1,268 @@
+#%YAML 1.2
+---
+
+# Extracted from the rules for Pathfinder under the terms
+# of the Open Game License -- see ../OGL.txt
+#
+#Open Game License v 1.0a © 2000, Wizards of the Coast, Inc.
+#System Reference Document © 2000, Wizards of the Coast, Inc.; Authors Jonathan Tweet, Monte Cook, Skip Williams, based on material by E. Gary Gygax and Dave Arneson.
+#Pathfinder Roleplaying Game Core Rulebook © 2011, Paizo Publishing, LLC; Author: Jason Bulmahn, based on material by Jonathan Tweet, Monte Cook, and Skip Williams.
+#The Book of Experimental Might © 2008, Monte J. Cook. All rights reserved.
+#Tome of Horrors © 2002, Necromancer Games, Inc.; Authors: Scott green, with Clark Peterson, Erica Balsley, Kevin Baase, Casey Christofferson, Lance Hawvermale, Travis Havermale, Patrick Lawinger, and Bill Webb; Based on original content from TSR.
+
+# Resources that limit character buids.
+# These should be overriden for different games.
+resources:
+  - name: ability_score_points_spent
+    # "Standard Fantasy" point buy limit.
+    maximum: 15
+
+# Statistics that can be calculated about characters.
+statistics:
+
+  # Basic attributes
+  - name: Strength
+    key: STR_score
+    base: 10
+  - name: Dexterity
+    key: DEX_score
+    base: 10
+  - name: Constitution
+    key: CON_score
+    base: 10
+  - name: Intelligence
+    key: INT_score
+    base: 10
+  - name: Wisdom
+    key: WIS_score
+    base: 10
+  - name: Charisma
+    key: CHA_score
+    base: 10
+
+  # Attribute modifiers.
+  # These use the shorter keys as they are more common.
+  - name: Strength modifier
+    key: STR
+    base:
+      quotient:
+        - sum:
+          - STR_score
+          - -10
+        - 2
+  - name: Dexterity modifier
+    key: DEX
+    base:
+      quotient:
+        - sum:
+          - DEX_score
+          - -10
+        - 2
+  - name: Constitution modifier
+    key: CON
+    base:
+      quotient:
+        - sum:
+          - CON_score
+          - -10
+        - 2
+  - name: Intelligence modifier
+    key: INT
+    base:
+      quotient:
+        - sum:
+          - INT_score
+          - -10
+        - 2
+  - name: Wisdom modifier
+    key: WIS
+    base:
+      quotient:
+        - sum:
+          - WIS_score
+          - -10
+        - 2
+  - name: Charisma modifier
+    key: CHA
+    base:
+      quotient:
+        - sum:
+          - CHA_score
+          - -10
+        - 2
+
+  - name: Base Attack Bonus
+    key: BAB
+    base: 0
+
+    # Attack bonus with default weapon.
+  - name: Melee Attack Bonus
+    key: Attack
+    base:
+      sum:
+        - BAB
+        - STR
+
+    # Attack bonus with default weapon.
+  - name: Ranged Attack Bonus
+    key: Attack
+    base:
+      sum:
+        - BAB
+        - DEX
+
+# Things you can do when building a character
+build_options:
+
+# Point buy for abilities
+# TODO: allow these to be parametrised instead.
+  - name: Strength Point Buy
+    multiple: no
+    choices:
+      - name_suffix: (7)
+        effects:
+          - resource: ability_score_points_spent
+            change: -4
+          - statistic: STR_score
+            value: 7
+      - name_suffix: (8)
+        effects:
+          - resource: ability_score_points_spent
+            change: -2
+          - statistic: STR_score
+            value: 8
+      - name_suffix: (9)
+        effects:
+          - resource: ability_score_points_spent
+            change: -1
+          - statistic: STR_score
+            value: 9
+      - name_suffix: (10)
+        effects:
+          - resource: ability_score_points_spent
+            change: 0
+          - statistic: STR_score
+            value: 10
+      - name_suffix: (11)
+        effects:
+          - resource: ability_score_points_spent
+            change: -1
+          - statistic: STR_score
+            value: 11
+      - name_suffix: (12)
+        effects:
+          - resource: ability_score_points_spent
+            change: 2
+          - statistic: STR_score
+            value: 12
+      - name_suffix: (13)
+        effects:
+          - resource: ability_score_points_spent
+            change: 3
+          - statistic: STR_score
+            value: 13
+      - name_suffix: (14)
+        effects:
+          - resource: ability_score_points_spent
+            change: 5
+          - statistic: STR_score
+            value: 14
+      - name_suffix: (15)
+        effects:
+          - resource: ability_score_points_spent
+            change: 7
+          - statistic: STR_score
+            value: 15
+      - name_suffix: (16)
+        effects:
+          - resource: ability_score_points_spent
+            change: 10
+          - statistic: STR_score
+            value: 16
+      - name_suffix: (17)
+        effects:
+          - resource: ability_score_points_spent
+            change: 13
+          - statistic: STR_score
+            value: 17
+      - name_suffix: (18)
+        effects:
+          - resource: ability_score_points_spent
+            change: 17
+          - statistic: STR_score
+            value: 18
+  - name: Dexterity Point Buy
+    multiple: no
+    choices:
+      - name_suffix: (7)
+        effects:
+          - resource: ability_score_points_spent
+            change: -4
+          - statistic: DEX_score
+            value: 7
+      - name_suffix: (8)
+        effects:
+          - resource: ability_score_points_spent
+            change: -2
+          - statistic: DEX_score
+            value: 8
+      - name_suffix: (9)
+        effects:
+          - resource: ability_score_points_spent
+            change: -1
+          - statistic: DEX_score
+            value: 9
+      - name_suffix: (10)
+        effects:
+          - resource: ability_score_points_spent
+            change: 0
+          - statistic: DEX_score
+            value: 10
+      - name_suffix: (11)
+        effects:
+          - resource: ability_score_points_spent
+            change: -1
+          - statistic: DEX_score
+            value: 11
+      - name_suffix: (12)
+        effects:
+          - resource: ability_score_points_spent
+            change: 2
+          - statistic: DEX_score
+            value: 12
+      - name_suffix: (13)
+        effects:
+          - resource: ability_score_points_spent
+            change: 3
+          - statistic: DEX_score
+            value: 13
+      - name_suffix: (14)
+        effects:
+          - resource: ability_score_points_spent
+            change: 5
+          - statistic: DEX_score
+            value: 14
+      - name_suffix: (15)
+        effects:
+          - resource: ability_score_points_spent
+            change: 7
+          - statistic: DEX_score
+            value: 15
+      - name_suffix: (16)
+        effects:
+          - resource: ability_score_points_spent
+            change: 10
+          - statistic: DEX_score
+            value: 16
+      - name_suffix: (17)
+        effects:
+          - resource: ability_score_points_spent
+            change: 13
+          - statistic: DEX_score
+            value: 17
+      - name_suffix: (18)
+        effects:
+          - resource: ability_score_points_spent
+            change: 17
+          - statistic: DEX_score
+            value: 18
