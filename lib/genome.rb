@@ -1,12 +1,10 @@
 
 # The genome of a build is a sequence of build decisions
 # (levels, feats, class options, etc)
-# To calculate the stats of the actual buid, we go through the list
-# applying all options in turn. Once a resource runs out (e.g. skill ranks,
-# feat slots, or levels), we stop applying changes that depend on that resource;
-# so a first-level Commoner genome might list three feats, but we'll only apply
-# the first one or two.
+# We don't care about validity of the build when generating a genome; 
+# we'll check all that when we put together the character.
 
+# TODO: rename to Build, and extract Genome to its own model.
 class Genome
 
   # Create a genome of the given length, chosing build options from the given list.
@@ -41,4 +39,8 @@ class Genome
       option
     end
   end
+
+  protected
+
+  attr_accessor :build_choices
 end
