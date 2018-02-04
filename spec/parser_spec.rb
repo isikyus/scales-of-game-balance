@@ -93,7 +93,7 @@ build_options:
 
         specify 'are created to set values' do
           expect(str_effect).to be_a Effect::SetValue
-          expect(str_effect.new_value).to eq 7
+          expect(str_effect.value_to_set).to eq 7
         end
       end
     end

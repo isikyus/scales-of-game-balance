@@ -33,22 +33,21 @@ class CharacterFactory < Genome
     valid_build_choices = genome.build_choices.inject([]) do |chosen, choice|
 
       # What resources would we have left if we applied this change?
-      resources_after_choice = resources_left.dup
+      after_choice = resources_left.dup
       choice.effects_array.each do |effect|
-        if effect.key?('resource')
-          resources_after_choice[effect.resource] += effect.change
-        end
+        after_choice[effect.resource] = effect.new_value(after_choice[effect.resource])
       end
 
       # Accept the choice unless the new resources violate the constraints.
       accept_choice = @constraints.all? do |constraint|
-         value = resources_after_choice[constraint.resource]
+         value = after_choice[constraint.resource]
          constraint.satisfied?(value)
       end
 
       if accept_choice
-        resources_left = resources_after_choice
+        resources_left = after_choice
         chosen.push(choice)
+        chosen
       else
 
         # Can't choose this, so just keep going.

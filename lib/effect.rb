@@ -23,14 +23,30 @@ class Effect
     end
 
     attr_reader :change
+
+    def new_value(old_value)
+      old_value + change
+    end
+
+    def inspect
+      "<#{resource} += #{change}>"
+    end
   end
 
   class SetValue < Effect
-    def initialize(resource, new_value)
+    def initialize(resource, value_to_set)
       @resource = resource
-      @new_value = new_value
+      @value_to_set = value_to_set
     end
 
-    attr_reader :new_value
+    attr_reader :value_to_set
+
+    def new_value(old_value)
+      value_to_set
+    end
+
+    def inspect
+      "<#{resource} = #{value_to_set}>"
+    end
   end
 end
