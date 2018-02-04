@@ -146,7 +146,7 @@ build_options:
       - name_suffix: (11)
         effects:
           - resource: ability_score_points_spent
-            change: -1
+            change: 1
           - statistic: STR_score
             value: 11
       - name_suffix: (12)
@@ -221,7 +221,7 @@ build_options:
       - name_suffix: (11)
         effects:
           - resource: ability_score_points_spent
-            change: -1
+            change: 1
           - statistic: DEX_score
             value: 11
       - name_suffix: (12)
