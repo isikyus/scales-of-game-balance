@@ -5,11 +5,11 @@
 class Constraint
 
   # TODO: use named parameters.
-  def initialize(options)
-    @resource = options[:resource] || raise
+  def initialize(resource, limits)
+    @resource = resource
 
     # TODO: allow other constraints -- maybe use dry-validation or some such?
-    @maximum = options[:maximum] || raise
+    @maximum = limits[:maximum] || raise
   end
 
   attr_accessor :resource
@@ -17,5 +17,9 @@ class Constraint
   # Check whether the given value for this resource is valid given this constraint.
   def satisfied?(value)
     value < @maximum
+  end
+
+  def limits
+    { maximum: @maximum }
   end
 end
