@@ -12,7 +12,7 @@ I have no affliation with Paizo, and they do not endorse this project.
 
 ## Usage
 
-    ruby bin/evolve_characters.rb
+    bundle exec ruby bin/evolve_characters.rb
 
 ## Development
 
