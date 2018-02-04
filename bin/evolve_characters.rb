@@ -18,7 +18,7 @@ parser = Parser.new(data_file)
 
 # Generate some random characters
 POPULATION_SIZE = 20
-GENOME_LENGTH = 5
+GENOME_LENGTH = 10
 @population = POPULATION_SIZE.times.map do
   Genome.new_randomised(GENOME_LENGTH, parser.build_options)
 end
