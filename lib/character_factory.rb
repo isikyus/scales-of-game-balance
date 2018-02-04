@@ -4,7 +4,8 @@
 # system (e.g. feat counts pre-requisites) and power level
 # (e.g. number of class levels, or points limit).
 
-require_relative 'genome'
+require 'lib/genome'
+require 'lib/character'
 
 class CharacterFactory < Genome
 
@@ -55,6 +56,6 @@ class CharacterFactory < Genome
       end
     end
 
-    Genome.new(valid_build_choices)
+    Character.new(genome, resources_left)
   end
 end
