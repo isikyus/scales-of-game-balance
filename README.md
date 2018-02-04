@@ -10,6 +10,16 @@ my models are probably massively broken, if they even exist.
 
 I have no affliation with Paizo, and they do not endorse this project.
 
+## Usage
+
+    ruby bin/evolve_characters.rb
+
+## Development
+
+To run tests:
+
+    bundle exec rspec
+
 ## Roadmap:
 
 - [ ] Build a rough simulation of Pathfinder stats and combat.
