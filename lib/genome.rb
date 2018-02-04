@@ -24,7 +24,16 @@ class Genome
   end
 
   def inspect
-    "<Genome @build_choices=#{@build_choices.inspect}>"
+    build_choice_strings = @build_choices.map(&:inspect)
+    indented_choices = build_choice_strings.map do |choice|
+      '  ' + choice
+    end
+
+    [
+      '<Genome @build_choices = ',
+      *indented_choices,
+      '>'
+    ].join("\n")
   end
 
   # Chose a build option from the given list, completely at random.
