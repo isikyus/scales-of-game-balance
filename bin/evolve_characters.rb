@@ -23,19 +23,27 @@ GENOME_LENGTH = 10
   Genome.new_randomised(GENOME_LENGTH, parser.build_options)
 end
 
+def score_character(character)
+  # TODO: make objective functions configurable.
+
+  # Just use the maximum stat -- let's see if the algorithm can work out how to get an 18.
+  ability_scores = character.stats.select do |stat, _|
+    stat.end_with?('score')
+  end
+  ability_scores.map { |_, score| score }.max
+end
+
 # Handy methods. TODO: build a class for this.
 def print_population
   @population.each do |build|
-    p build
-    puts "After applying constraints:"
-    p @character_factory.build_character(build)
+    character = @character_factory.build_character(build)
+    p character
+    puts "Score: #{score_character(character)}"
   end
 end
 
 # Output the starting population
 print_population
-
-# TODO: Score population
 
 # TODO: Have highest-scoring individuals reproduce
 
