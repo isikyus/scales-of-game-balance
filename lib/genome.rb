@@ -23,6 +23,8 @@ class Genome
     @build_choices = build_choices
   end
 
+  attr_accessor :build_choices
+
   def inspect
     build_choice_strings = @build_choices.map(&:inspect)
     indented_choices = build_choice_strings.map do |choice|
@@ -60,8 +62,4 @@ class Genome
       option
     end
   end
-
-  protected
-
-  attr_accessor :build_choices
 end

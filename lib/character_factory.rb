@@ -7,13 +7,10 @@
 require 'lib/genome'
 require 'lib/character'
 
-class CharacterFactory < Genome
+class CharacterFactory
 
   # The surname to use for randomly-generated characters (with no ancestors).
   NEW_LINEAGE_SURNAME = 'First-of-That-Line'
-
-  # Prefix applied to a given name to turn it into a surname.
-  CHILD_OF = 'nic'
 
   # @param constraints [Array<ResourceConstraint>] The constraints within which to build the character.
   def initialize(constraints)
@@ -41,6 +38,7 @@ class CharacterFactory < Genome
     # This isn't perfect (what about pre-requisites satisified 
     # by a later choice, or later choices that restore resources), but it is at least determinisitic,
     # which is good enough for now.
+    # TODO: calculating build choices should probably be its own class
     valid_build_choices = genome.build_choices.inject([]) do |chosen, choice|
 
       # What resources would we have left if we applied this change?
@@ -67,16 +65,5 @@ class CharacterFactory < Genome
     end
 
     Character.new(genome, resources_left, name, surname)
-  end
-
-  # Build a new character with a genome based on an existing one.
-  #
-  # @param name [String] The (given) name of the new child.
-  # @param parent [Character] the existing character to work from.
-  # @return [Character] the "child" character.
-  def child(parent, name)
-    new_genome = Genome.mutate(parent.genome)
-    surname = "#{CHILD_OF} #{parent.given_name}"
-    kid = build_character(new_genome, name, surname)
   end
 end

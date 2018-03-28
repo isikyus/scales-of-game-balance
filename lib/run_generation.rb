@@ -13,10 +13,10 @@ class RunGeneration
   #                       proportion of the existing population to keep.
   # @param random [Random] the random number generator in use.
   def initialize(scorer, reproducer, survival_rate, random=Random.new)
-    @random = random
     @scorer = scorer
     @reproducer = reproducer
     @survival_rate = survival_rate
+    @random = random
   end
 
   # Returns a new population (set of individuals)
