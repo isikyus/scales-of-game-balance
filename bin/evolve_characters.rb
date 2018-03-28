@@ -59,7 +59,7 @@ ITERATIONS.times do |iteration|
   puts "Iteration #{iteration + 1}:"
 
   # Find the fittest members of the population.
-  fittest = @population.sort_by { |char| score_character(char) }.first(SURVIVORS)
+  fittest = @population.max_by(SURVIVORS) { |char| score_character(char) }
 
   # Fill up the rest of the population with children of the fittest.
   children = (POPULATION_SIZE - fittest.length).times.map do
