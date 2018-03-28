@@ -48,8 +48,13 @@ print_population
 # Have highest-scoring individuals reproduce
 ITERATIONS = 10
 SURVIVAL_RATE = 0.1
+MUTATION_CHANCE = 0.05
 
-@reproducer = Reproducer.new(@name_generator, @character_factory, @random)
+@reproducer = Reproducer.new(parser.build_options,
+                             @name_generator,
+                             @character_factory,
+                             MUTATION_CHANCE,
+                             @random)
 @generation_runner = RunGeneration.new(@scorer, @reproducer, SURVIVAL_RATE, @random)
 
 ITERATIONS.times do |iteration|
