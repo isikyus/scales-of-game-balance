@@ -14,9 +14,12 @@ class CharacterFactory < Genome
     @constraints = constraints
   end
 
-  # @param build [Genome] the build choices we want to make.
-  # @return [Genome] TODO should return a subclass of Build that can do stat calculations.
-  def build_character(genome)
+  # Create a new character with no ancestry information.
+  #
+  # @param genome [Genome] the build choices we want to make.
+  # @param name [String] a name for the new character.
+  # @return [Character]
+  def build_character(genome, name)
     resources_left = {}.tap do |res|
       @constraints.each do |constraint|
 
@@ -56,6 +59,6 @@ class CharacterFactory < Genome
       end
     end
 
-    Character.new(genome, resources_left)
+    Character.new(genome, resources_left, name)
   end
 end

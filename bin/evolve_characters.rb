@@ -7,6 +7,7 @@ $: << "#{app_dir}"
 require 'lib/genome'
 require 'lib/parser'
 require 'lib/character_factory'
+require 'lib/name_generator'
 
 require 'yaml'
 
@@ -15,6 +16,7 @@ data_file = File.new(File.join(app_dir, 'ogl', 'pathfinder.yml'))
 parser = Parser.new(data_file)
 
 @character_factory = CharacterFactory.new(parser.constraints)
+@name_generator = NameGenerator.new
 
 # Generate some random characters
 POPULATION_SIZE = 20
@@ -36,7 +38,8 @@ end
 # Handy methods. TODO: build a class for this.
 def print_population
   @population.each do |build|
-    character = @character_factory.build_character(build)
+    name = @name_generator.call
+    character = @character_factory.build_character(build, name)
     p character
     puts "Score: #{score_character(character)}"
   end
