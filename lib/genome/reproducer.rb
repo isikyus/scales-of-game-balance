@@ -1,46 +1,35 @@
+require 'lib/genome'
 
-# Create a new character build based on two given parents.
+# Create a new genome (build) based on two given parents.
 
-class Reproducer
-
-  # Prefix applied to a given name to turn it into a surname.
-  CHILD_OF = 'nic'
+class Genome::Reproducer
 
   # @param build_options [Array] valid elements to add to the genome.
-  # @param name_generator [NameGenerator] for generating names for child characters.
-  # @param character_factory [CharacterFactory] to create Character objects. TODO: shouldn't need this if we do build calculations separately.1
   # @param mutation_chance [Float] The chance of _one_ mutation when a genome is copied.
   #                                 This is applied until it fails, so a rate of 0.5
   #                                 gives you one mutation in 0.5 - 0.25 = 25% of children,
   #                                 two in 0.25 - 0.125 = 125% of children, and so on.
   # @param random [Random] dependency-injected random number generator to use.
-  def initialize(build_options, name_generator, character_factory, mutation_chance, random=Random.new)
+  def initialize(build_options, mutation_chance, random=Random.new)
     @build_options = build_options
-    @name_generator = name_generator
-    @character_factory = character_factory
     @mutation_chance = mutation_chance
     @random = random
   end
 
-  # Build a new character with a genome based on two existing ones,
-  # and a newly-generated name.
+  # Build a new genome based on two existing ones.
   #
-  # @param parent1 [Character] one existing character to work from.
-  # @param parent2 [Character] the other existing character to work from. TODO: actually use
-  # @return [Character] the "child" character.
+  # @param parent1 [Genome] one existing genome to work from.
+  # @param parent2 [Genome] the other existing genome to work from. TODO: actually use
+  # @return [Genome] the "child" genome.
   def child(parent1, parent2)
-    new_genome = mutate(parent1.genome)
-    given_name = @name_generator.call
-    surname = "#{CHILD_OF} #{parent1.given_name}"
-    @character_factory.build_character(new_genome, given_name, surname)
+    mutate(parent1)
   end
-
-  private
 
   # Create a new genome similar to the given one, but with slight random changes.
   #
   # @param original [Genome]
   # @return [Genome]
+  # TODO: only public for testing.
   def mutate(original)
 
     # Randomly decide how many mutations to apply.
@@ -60,6 +49,8 @@ class Reproducer
     # TODO: inject Genome as a dependency.
     Genome.new(new_choices)
   end
+
+  private
 
   # Apply a single (randomly-chosen) mutation to the given genome,
   # modifying the original.

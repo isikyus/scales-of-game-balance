@@ -9,7 +9,8 @@ require 'lib/parser'
 require 'lib/name_generator'
 require 'lib/character_factory'
 require 'lib/run_generation'
-require 'lib/reproducer'
+require 'lib/character/reproducer'
+require 'lib/genome/reproducer'
 require 'lib/scorers/maximum_stat_scorer'
 
 require 'yaml'
@@ -50,12 +51,13 @@ ITERATIONS = 10
 SURVIVAL_RATE = 0.1
 MUTATION_CHANCE = 0.05
 
-@reproducer = Reproducer.new(parser.build_options,
-                             @name_generator,
-                             @character_factory,
-                             MUTATION_CHANCE,
-                             @random)
-@generation_runner = RunGeneration.new(@scorer, @reproducer, SURVIVAL_RATE, @random)
+genome_reproducer = Genome::Reproducer.new(parser.build_options,
+                                           MUTATION_CHANCE,
+                                           @random)
+reproducer = Character::Reproducer.new(@name_generator,
+                                       genome_reproducer,
+                                       @character_factory)
+@generation_runner = RunGeneration.new(@scorer, reproducer, SURVIVAL_RATE, @random)
 
 ITERATIONS.times do |iteration|
   puts

@@ -1,18 +1,13 @@
-require 'lib/reproducer'
-require 'stringio'
-require 'genome'
+require 'lib/genome/reproducer'
 
-RSpec.describe Reproducer do
+RSpec.describe Genome::Reproducer do
 
   let(:build_options) { %w[ A C G T ] }
   let(:name_generator) { double('NameGenerator') }
   let(:character_factory) { double('CharacterFactory') }
   let(:mutation_chance) { 0.1 }
   subject do
-    Reproducer.new(build_options,
-                   name_generator,
-                   character_factory,
-                   mutation_chance)
+    Genome::Reproducer.new(build_options, mutation_chance)
   end
 
   describe '#mutate' do
