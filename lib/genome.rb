@@ -23,6 +23,8 @@ class Genome
     @build_choices = build_choices
   end
 
+  attr_accessor :build_choices
+
   def inspect
     build_choice_strings = @build_choices.map(&:inspect)
     indented_choices = build_choice_strings.map do |choice|
@@ -34,6 +36,18 @@ class Genome
       *indented_choices,
       '>'
     ].join("\n")
+  end
+
+  # Create a new genome similar to the given one, but with slight random changes.
+  # TODO: these methods should probably be in a factory class that can take
+  # an RNG as a parameter.
+  #
+  # @param original [Genome]
+  # @return [Genome]
+  def self.mutate(original)
+
+    # TODO: implement.
+    original
   end
 
   # Chose a build option from the given list, completely at random.
@@ -48,8 +62,4 @@ class Genome
       option
     end
   end
-
-  protected
-
-  attr_accessor :build_choices
 end

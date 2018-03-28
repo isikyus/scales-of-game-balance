@@ -6,8 +6,11 @@ app_dir = File.dirname(File.dirname(File.realdirpath(__FILE__)))
 $: << "#{app_dir}"
 require 'lib/genome'
 require 'lib/parser'
-require 'lib/character_factory'
 require 'lib/name_generator'
+require 'lib/character_factory'
+require 'lib/run_generation'
+require 'lib/reproducer'
+require 'lib/scorers/maximum_stat_scorer'
 
 require 'yaml'
 
@@ -15,6 +18,7 @@ require 'yaml'
 data_file = File.new(File.join(app_dir, 'ogl', 'pathfinder.yml'))
 parser = Parser.new(data_file)
 
+@random = Random.new
 @character_factory = CharacterFactory.new(parser.constraints)
 @name_generator = NameGenerator.new
 
@@ -22,32 +26,37 @@ parser = Parser.new(data_file)
 POPULATION_SIZE = 20
 GENOME_LENGTH = 10
 @population = POPULATION_SIZE.times.map do
-  Genome.new_randomised(GENOME_LENGTH, parser.build_options)
+  genome = Genome.new_randomised(GENOME_LENGTH, parser.build_options)
+    name = @name_generator.call
+  @character_factory.build_character(genome, name)
 end
 
-def score_character(character)
-  # TODO: make objective functions configurable.
-
-  # Just use the maximum stat -- let's see if the algorithm can work out how to get an 18.
-  ability_scores = character.stats.select do |stat, _|
-    stat.end_with?('score')
-  end
-  ability_scores.map { |_, score| score }.max
-end
+@scorer = MaximumStatScorer.new
 
 # Handy methods. TODO: build a class for this.
-def print_population
-  @population.each do |build|
-    name = @name_generator.call
-    character = @character_factory.build_character(build, name)
+def print_population(details = false)
+  @population.each do |character|
     p character
-    puts "Score: #{score_character(character)}"
+    puts "Score: #{@scorer.score(character)}"
   end
 end
 
 # Output the starting population
+puts "Initial population:"
 print_population
 
-# TODO: Have highest-scoring individuals reproduce
+# Have highest-scoring individuals reproduce
+ITERATIONS = 10
+SURVIVAL_RATE = 0.1
 
-# TODO: Mutate some individuals randomly
+@reproducer = Reproducer.new(@name_generator, @character_factory, @random)
+@generation_runner = RunGeneration.new(@scorer, @reproducer, SURVIVAL_RATE, @random)
+
+ITERATIONS.times do |iteration|
+  puts
+  puts "Iteration #{iteration + 1}:"
+
+  @population = @generation_runner.call(@population)
+
+  print_population
+end
