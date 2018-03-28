@@ -15,7 +15,7 @@ require 'lib/scorers/maximum_stat_scorer'
 require 'yaml'
 
 # Load game system data tables.
-data_file = File.new(File.join(app_dir, 'ogl', 'pathfinder.yml'))
+data_file = File.new(File.join(app_dir, 'ogl', 'sample.yml'))
 parser = Parser.new(data_file)
 
 @random = Random.new
