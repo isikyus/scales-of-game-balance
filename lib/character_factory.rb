@@ -9,6 +9,9 @@ require 'lib/character'
 
 class CharacterFactory < Genome
 
+  # The surname to use for randomly-generated characters (with no ancestors).
+  NEW_LINEAGE_SURNAME = 'First-of-That-Line';
+
   # @param constraints [Array<ResourceConstraint>] The constraints within which to build the character.
   def initialize(constraints)
     @constraints = constraints
@@ -59,6 +62,6 @@ class CharacterFactory < Genome
       end
     end
 
-    Character.new(genome, resources_left, name)
+    Character.new(genome, resources_left, name, NEW_LINEAGE_SURNAME)
   end
 end
