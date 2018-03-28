@@ -35,9 +35,9 @@ def score_character(character)
 end
 
 # Handy methods. TODO: build a class for this.
-    p character
 def print_population(details = false)
   @population.each do |character|
+    p character
     puts "Score: #{score_character(character)}"
   end
 end
@@ -62,7 +62,7 @@ ITERATIONS.times do |iteration|
   children = (POPULATION_SIZE - fittest.length).times.map do
     @character_factory.child(fittest.sample)
   end
-  
+
   @population = fittest + children
 
   print_population
