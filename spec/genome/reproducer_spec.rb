@@ -1,4 +1,5 @@
 require 'lib/genome/reproducer'
+require 'timeout'
 
 RSpec.describe Genome::Reproducer do
 
