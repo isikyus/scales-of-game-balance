@@ -51,6 +51,32 @@ class Genome::Reproducer
     new_choices
   end
 
+  # Create a new genome from the start of the first and the end of the second
+  # given genome, crossing over at some random point in the middle.
+  #
+  # @param left [Genome] the genome to start with.
+  # @param right [Genome] the genome to end with.
+  # @return [Genome] the "child" genome.
+  def crossover(left, right)
+
+    # Choose a length between those of the inputs.
+    length_difference = (left.length - right.length)
+
+    if length_difference == 0
+
+      # Doesn't matter which we choose -- they're equal.
+      child_length = left.length
+    else
+      shorter_length = [left.length, right.length].min
+      child_length = shorter_length + @random.rand(length_difference.abs)
+    end
+
+    # Cross over somewhere inside that length.
+    crossover_point = @random.rand(child_length)
+
+    left.first(crossover_point) + right.last(child_length - crossover_point)
+  end
+
   private
 
   # Apply a single (randomly-chosen) mutation to the given genome,
