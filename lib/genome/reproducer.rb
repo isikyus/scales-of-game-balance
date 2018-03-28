@@ -22,32 +22,33 @@ class Genome::Reproducer
   # @param parent2 [Genome] the other existing genome to work from. TODO: actually use
   # @return [Genome] the "child" genome.
   def child(parent1, parent2)
-    mutate(parent1)
+
+    # TODO: inject Genome as a dependency.
+    Genome.new(mutate(parent1.build_choices))
   end
 
   # Create a new genome similar to the given one, but with slight random changes.
   #
-  # @param original [Genome]
-  # @return [Genome]
+  # @param original [Array<BuildOption>]
+  # @return [Array<BuildOption>]
   # TODO: only public for testing.
   def mutate(original)
 
     # Randomly decide how many mutations to apply.
     # We cap the number at genome length to avoid running forever.
     mutations = 0
-    max_mutations = original.build_choices.length
+    max_mutations = original.length
     while (mutations < max_mutations) && (@random.rand < @mutation_chance)
       mutations += 1
     end
 
     # Apply those mutations.
-    new_choices = original.build_choices.dup
+    new_choices = original.dup
     mutations.times do
       apply_mutation!(new_choices)
     end
 
-    # TODO: inject Genome as a dependency.
-    Genome.new(new_choices)
+    new_choices
   end
 
   private
