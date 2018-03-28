@@ -1,5 +1,4 @@
 require 'lib/run_generation'
-require 'stringio'
 
 RSpec.describe RunGeneration do
 
