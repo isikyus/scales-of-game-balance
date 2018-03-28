@@ -36,6 +36,18 @@ class Genome
     ].join("\n")
   end
 
+  # Create a new genome similar to the given one, but with slight random changes.
+  # TODO: these methods should probably be in a factory class that can take
+  # an RNG as a parameter.
+  #
+  # @param original [Genome]
+  # @return [Genome]
+  def self.mutate(original)
+
+    # TODO: implement.
+    original
+  end
+
   # Chose a build option from the given list, completely at random.
   def self.random_build_option(build_options)
     option = build_options.sample

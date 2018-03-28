@@ -20,7 +20,8 @@ parser = Parser.new(data_file)
 POPULATION_SIZE = 20
 GENOME_LENGTH = 10
 @population = POPULATION_SIZE.times.map do
-  Genome.new_randomised(GENOME_LENGTH, parser.build_options)
+  genome = Genome.new_randomised(GENOME_LENGTH, parser.build_options)
+  @character_factory.build_character(genome)
 end
 
 def score_character(character)
@@ -34,17 +35,35 @@ def score_character(character)
 end
 
 # Handy methods. TODO: build a class for this.
-def print_population
-  @population.each do |build|
-    character = @character_factory.build_character(build)
     p character
+def print_population(details = false)
+  @population.each do |character|
     puts "Score: #{score_character(character)}"
   end
 end
 
 # Output the starting population
+puts "Initial population:"
 print_population
 
-# TODO: Have highest-scoring individuals reproduce
+# Have highest-scoring individuals reproduce
+ITERATIONS = 10
+SURVIVAL_RATIO = 0.1
+SURVIVORS = POPULATION_SIZE * SURVIVAL_RATIO
 
-# TODO: Mutate some individuals randomly
+ITERATIONS.times do |iteration|
+  puts
+  puts "Iteration #{iteration + 1}:"
+
+  # Find the fittest members of the population.
+  fittest = @population.sort_by { |char| score_character(char) }.first(SURVIVORS)
+
+  # Fill up the rest of the population with children of the fittest.
+  children = (POPULATION_SIZE - fittest.length).times.map do
+    @character_factory.child(fittest.sample)
+  end
+  
+  @population = fittest + children
+
+  print_population
+end

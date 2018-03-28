@@ -58,4 +58,12 @@ class CharacterFactory < Genome
 
     Character.new(genome, resources_left)
   end
+
+  # Build a new character with a genome based on an existing one.
+  #
+  # @param parent [Character] the existing character to work from.
+  # @return [Character] the "child" character.
+  def child(parent)
+    build_character(Genome.mutate(parent.genome))
+  end
 end
