@@ -7,6 +7,7 @@ $: << "#{app_dir}"
 require 'lib/genome'
 require 'lib/parser'
 require 'lib/character_factory'
+require 'lib/name_generator'
 
 require 'yaml'
 
@@ -15,13 +16,15 @@ data_file = File.new(File.join(app_dir, 'ogl', 'pathfinder.yml'))
 parser = Parser.new(data_file)
 
 @character_factory = CharacterFactory.new(parser.constraints)
+@name_generator = NameGenerator.new
 
 # Generate some random characters
 POPULATION_SIZE = 20
 GENOME_LENGTH = 10
 @population = POPULATION_SIZE.times.map do
   genome = Genome.new_randomised(GENOME_LENGTH, parser.build_options)
-  @character_factory.build_character(genome)
+    name = @name_generator.call
+  @character_factory.build_character(genome, name)
 end
 
 def score_character(character)
@@ -60,7 +63,9 @@ ITERATIONS.times do |iteration|
 
   # Fill up the rest of the population with children of the fittest.
   children = (POPULATION_SIZE - fittest.length).times.map do
-    @character_factory.child(fittest.sample)
+    name = @name_generator.call
+    parent = fittest.sample
+    @character_factory.child(parent, name)
   end
 
   @population = fittest + children

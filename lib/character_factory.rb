@@ -9,14 +9,24 @@ require 'lib/character'
 
 class CharacterFactory < Genome
 
+  # The surname to use for randomly-generated characters (with no ancestors).
+  NEW_LINEAGE_SURNAME = 'First-of-That-Line'
+
+  # Prefix applied to a given name to turn it into a surname.
+  CHILD_OF = 'nic'
+
   # @param constraints [Array<ResourceConstraint>] The constraints within which to build the character.
   def initialize(constraints)
     @constraints = constraints
   end
 
-  # @param build [Genome] the build choices we want to make.
-  # @return [Genome] TODO should return a subclass of Build that can do stat calculations.
-  def build_character(genome)
+  # Create a new character with no ancestry information.
+  #
+  # @param genome [Genome] the build choices we want to make.
+  # @param name [String] a name for the new character.
+  # @param surname [String] optional second name to indicate ancestry.
+  # @return [Character]
+  def build_character(genome, name, surname=NEW_LINEAGE_SURNAME)
     resources_left = {}.tap do |res|
       @constraints.each do |constraint|
 
@@ -56,14 +66,17 @@ class CharacterFactory < Genome
       end
     end
 
-    Character.new(genome, resources_left)
+    Character.new(genome, resources_left, name, surname)
   end
 
   # Build a new character with a genome based on an existing one.
   #
+  # @param name [String] The (given) name of the new child.
   # @param parent [Character] the existing character to work from.
   # @return [Character] the "child" character.
-  def child(parent)
-    build_character(Genome.mutate(parent.genome))
+  def child(parent, name)
+    new_genome = Genome.mutate(parent.genome)
+    surname = "#{CHILD_OF} #{parent.given_name}"
+    kid = build_character(new_genome, name, surname)
   end
 end
