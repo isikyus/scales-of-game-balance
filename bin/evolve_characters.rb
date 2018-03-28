@@ -37,7 +37,7 @@ end
 def print_population(details = false)
   @population.each do |character|
     p character
-    puts "Score: #{@scorer.score(character)}"
+    puts "#{character.full_name} scores #{@scorer.score(character)}"
   end
 end
 
