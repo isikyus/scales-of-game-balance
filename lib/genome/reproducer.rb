@@ -23,8 +23,11 @@ class Genome::Reproducer
   # @return [Genome] the "child" genome.
   def child(parent1, parent2)
 
+    crossed_over = crossover(parent1.build_choices, parent2.build_choices)
+    mutated = mutate(crossed_over)
+
     # TODO: inject Genome as a dependency.
-    Genome.new(mutate(parent1.build_choices))
+    Genome.new(mutated)
   end
 
   # Create a new genome similar to the given one, but with slight random changes.

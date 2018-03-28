@@ -4,8 +4,9 @@ require 'lib/character'
 
 class Character::Reproducer
 
-  # Prefix applied to a given name to turn it into a surname.
-  CHILD_OF = 'nic'
+  # Prefixes applied to parents' given names to create a surname
+  LEFT_CHILD_OF = 'ic'
+  RIGHT_CHILD_OF = 'ac'
 
   # @param name_generator [NameGenerator] for generating names for child characters.
   # @param genome_reproducer object that can handle reproduction of Genome objects
@@ -25,7 +26,7 @@ class Character::Reproducer
   def child(parent1, parent2)
     new_genome = @genome_reproducer.child(parent1.genome, parent2.genome)
     given_name = @name_generator.call
-    surname = "#{CHILD_OF} #{parent1.given_name}"
+    surname = "#{LEFT_CHILD_OF} #{parent1.given_name} #{RIGHT_CHILD_OF} #{parent2.given_name}"
     @character_factory.build_character(new_genome, given_name, surname)
   end
 end
