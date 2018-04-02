@@ -98,4 +98,55 @@ build_options:
       end
     end
   end
+
+  describe 'an option that cannot be taken multiple times' do
+    let(:data) do
+      %q{
+build_options:
+- name: Once-off Boost
+  once-only: true
+  effects:
+  - resource: ability_score_points_spent
+    change: +2
+      }
+    end
+
+    describe 'build option' do
+      subject { parser.build_options.first }
+
+      specify 'has the correct name' do
+        expect(subject.name).to eq 'Once-off Boost'
+      end
+
+      describe 'effects' do
+        let(:points_effect) do
+          subject.effects.detect { |e| e.resource == 'ability_score_points_spent' }
+        end
+        let(:implied_effect) do
+          subject.effects.detect { |e| e.resource == 'once-off-boost#count' }
+        end
+
+        specify 'has the stated effect' do
+          expect(points_effect).to be_a Effect::Change
+          expect(points_effect.change).to eq(+2)
+        end
+
+        specify 'consumes the implied resource' do
+          expect(implied_effect).to be_a Effect::Change
+          expect(implied_effect.change).to eq(+1)
+        end
+      end
+    end
+
+    describe 'implied constraints' do
+
+      let(:implied_constraints) { parser.constraints }
+      subject { implied_constraints.first }
+
+      specify 'are created for the implied resource' do
+        expect(subject.resource).to eq 'once-off-boost#count'
+        expect(subject.limits[:maximum]).to eq 1
+      end
+    end
+  end
 end
