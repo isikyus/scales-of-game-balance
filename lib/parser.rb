@@ -86,24 +86,30 @@ class Parser
     explict_effects(build_option['effects']) + implied_effects(build_option)
   end
 
-  # @param effect_data [Array<Hash>, NilClass]
-  # @return [Array<Effect, NilClass>]
-  def explict_effects(effect_data)
-    if effect_data.nil?
-      return []
+  # @param effects_data [Array<Hash>, NilClass]
+  # @return [Array<Effect>] Empty if input was nil.
+  def explict_effects(effects_data)
+    if effects_data.nil?
+      []
+    else
+      effects_data.map { |effect| parse_effect(effect) }
     end
+  end
 
-    effect_data.map do |effect|
+  # @param effect_data [Hash{String,Object}] Raw effect data
+  # @return Effect
+  def parse_effect(effect_data)
 
-      # TODO: why are these different things?
-      resource_or_stat = effect['resource'] || effect['statistic']
-      if effect['value']
-        Effect::SetValue.new(resource_or_stat, effect['value'])
-      elsif effect['change']
-        Effect::Change.new(resource_or_stat, effect['change'])
-      else
-        raise "Unrecognised effect type #{effect.inpsect}"
-      end
+    # TODO: why are these different things?
+    resource_or_stat = effect_data['resource'] || effect_data['statistic']
+
+    if effect_data['value']
+      Effect::SetValue.new(resource_or_stat, effect_data['value'])
+    elsif effect_data['change']
+      Effect::Change.new(resource_or_stat, effect_data['change'])
+    else
+      # TODO: should use our Error class.
+      raise "Unrecognised effect type #{effect_data.inpsect}"
     end
   end
 
