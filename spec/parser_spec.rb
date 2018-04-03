@@ -30,27 +30,7 @@ resources:
     end
   end
 
-  describe 'a parsed build option' do
-    let(:data) do
-      %q{
-build_options:
-  - name: Strength Point Buy
-    multiple: no
-    choices:
-      - name_suffix: (7)
-        effects:
-          - resource: ability_score_points_spent
-            change: -4
-          - statistic: STR_score
-            value: 7
-      - name_suffix: (8)
-        effects:
-          - resource: ability_score_points_spent
-            change: -2
-          - statistic: STR_score
-            value: 8
-      }
-    end
+  shared_examples_for 'strength point buy' do
 
     let(:parsed_options) { parser.build_options }
     subject { parsed_options.first }
@@ -97,5 +77,64 @@ build_options:
         end
       end
     end
+  end
+
+  describe 'a parsed build option' do
+    let(:data) do
+      %q{
+build_options:
+  - name: Strength Point Buy
+    multiple: no
+    choices:
+      - name_suffix: (7)
+        effects:
+          - resource: ability_score_points_spent
+            change: -4
+          - statistic: STR_score
+            value: 7
+      - name_suffix: (8)
+        effects:
+          - resource: ability_score_points_spent
+            change: -2
+          - statistic: STR_score
+            value: 8
+      }
+    end
+
+    it_should_behave_like 'strength point buy'
+  end
+
+  describe 'a build option using tables' do
+    let(:data) do
+      %q{
+tables:
+  - name: Ability Score Point Buy
+    id: ability-score-point-buy
+    parameters:
+    - $stat
+    rows:
+    - name_suffix: (7)
+      effects:
+      - resource: ability_score_points_spent
+        change: -4
+      - resource: $stat
+        value: 7
+    - name_suffix: (8)
+      effects:
+      - resource: ability_score_points_spent
+        change: -2
+      - resource: $stat
+        value: 8
+
+build_options:
+  - name: Strength Point Buy
+    multiple: no
+    choices_from_table:
+      table: ability-score-point-buy
+      $stat: STR_score
+      }
+    end
+
+    it_should_behave_like 'strength point buy'
   end
 end

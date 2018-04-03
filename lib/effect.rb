@@ -16,6 +16,14 @@ class Effect
     raise 'to be implemented in subclass'
   end
 
+  # Creates a new Effect identical to this one,
+  # but with a different resource name.
+  # @param new_name [String]
+  # @return [Effect]
+  def rename(new_name)
+    raise 'to be implemented in subclass'
+  end
+
   class Change < Effect
     def initialize(resource, change)
       @resource = resource
@@ -26,6 +34,10 @@ class Effect
 
     def new_value(old_value)
       old_value + change
+    end
+
+    def rename(new_name)
+      self.new(new_name, change)
     end
 
     def inspect
@@ -43,6 +55,10 @@ class Effect
 
     def new_value(old_value)
       value_to_set
+    end
+
+    def rename(new_name)
+      self.class.new(new_name, value_to_set)
     end
 
     def inspect
