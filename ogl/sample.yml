@@ -200,12 +200,12 @@ build_options:
 
   # Point buy for abilities
   - name: Strength Point Buy
-    multiple: no
+    once-only: yes
     choices_from_table:
       table: ability-score-point-costs
       $score: DEX_score
   - name: Dexterity Point Buy
-    multiple: no
+    once-only: yes
     choices_from_table:
       table: ability-score-point-costs
       $score: DEX_score

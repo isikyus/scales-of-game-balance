@@ -1,8 +1,8 @@
 The files included in the ogl/ directory are Open Game Content
 under the terms of section 1(d) of this license.
 
-The rest of this project (Ruby code and documentation) is designated Product Identity
-for the purpose of the OGL -- but it's also released under the MIT license; see LICENSE.txt.
+The rest of this project (excluding this license file itself, as stated below)
+is released under the MIT license; see LICENSE.txt.
 
 OPEN GAME LICENSE Version 1.0a
 
