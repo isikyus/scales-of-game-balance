@@ -9,7 +9,8 @@ This project is just for my own amusement, and to learn genetic algorithms.
 Don't assume it's compatible with the actual rules of your favourite system --
 my models are probably massively broken, if they even exist.
 
-I have no affliation with Paizo, and they do not endorse this project.
+I have no affliation with Paizo, Wizards of the Coast, or any other
+game publisher, and this project is not endorsed by any of them.
 
 ## Usage
 
