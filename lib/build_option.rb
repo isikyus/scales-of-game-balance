@@ -8,21 +8,16 @@ class BuildOption
 
   # Create a build option with data loaded from a data file
   # @param name [String] Name of this build option
-  # @param effects [Array<Effect>,NilClass] Details of this build option's effects.
-  #                        May be nil if not all choices made.
+  # @param effects [Array<Effect>] Details of this build option's effects,
+  #                                 excluding choices not yet made.
   # @param choices [Array<Choice>,NilClass] Details of choices this option offers that are not yet made.
-  def initialize(name, effects=nil, choices=nil)
+  def initialize(name, effects=[], choices=nil)
     @name = name
     @effects = effects
     @choices = choices
   end
 
   attr_reader :name, :choices, :effects
-
-  # Like #effects, but returns an empty array rather than nil if no effects.
-  def effects_array
-    effects || []
-  end
 
   # Return a new BuildOption with a specific value for a choice offered by this
   # option (e.g. which stat to modify)
@@ -33,7 +28,7 @@ class BuildOption
     raise "Unknown choice #{choice}" unless choices.include?(choice)
 
     new_name = name + choice.name_suffix
-    new_effects = effects_array + choice.effects
+    new_effects = effects + choice.effects
     BuildOption.new(new_name, new_effects)
   end
 

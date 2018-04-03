@@ -121,7 +121,7 @@ build_options:
 # Point buy for abilities
 # TODO: allow these to be parametrised instead.
   - name: Strength Point Buy
-    multiple: no
+    once-only: yes
     choices:
       - name_suffix: (7)
         effects:
@@ -196,7 +196,7 @@ build_options:
           - statistic: STR_score
             value: 18
   - name: Dexterity Point Buy
-    multiple: no
+    once-only: yes
     choices:
       - name_suffix: (7)
         effects:

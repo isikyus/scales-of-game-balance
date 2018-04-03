@@ -16,7 +16,7 @@ class Constraint
 
   # Check whether the given value for this resource is valid given this constraint.
   def satisfied?(value)
-    value < @maximum
+    value <= @maximum
   end
 
   def limits

@@ -36,14 +36,15 @@ class CharacterFactory
     # Just run through the list of build choices, accepting all
     # until we run out of resources.
     # This isn't perfect (what about pre-requisites satisified 
-    # by a later choice, or later choices that restore resources), but it is at least determinisitic,
+    # by a later choice, or later choices that restore resources?),
+    # but it is at least determinisitic,
     # which is good enough for now.
     # TODO: calculating build choices should probably be its own class
     valid_build_choices = genome.build_choices.inject([]) do |chosen, choice|
 
       # What resources would we have left if we applied this change?
       after_choice = resources_left.dup
-      choice.effects_array.each do |effect|
+      choice.effects.each do |effect|
         after_choice[effect.resource] = effect.new_value(after_choice[effect.resource])
       end
 
