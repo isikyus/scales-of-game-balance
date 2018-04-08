@@ -176,28 +176,32 @@ class Parser
     # Validate that the table is being invoked correctly.
     raise Error, "Reference to undefined table #{table_id}" unless table
 
-    arguments = table_call.keys - %w[ table ]
-    unless arguments == table.parameters
+    renamings = table_call.select { |key, _value| key.start_with?('$') }
+    unless renamings.keys == table.parameters
       raise Error, "Reference to table #{table.name} (#{table_id}) with non-matching parameters: "\
                     "expected #{table.parameters.inspect} but saw #{arguments.inspect}"
     end
 
     table.rows.map do |row|
+      choice_from_table_row(row, renamings)
+    end
+  end
+
+  # @param row_data [Hash{String,Object}]
+  # @param renamings [Hash{String,String}] Attributes to be renamed within the table.
+  def choice_from_table_row(row_data, renamings)
 
       # Rename bound (parameter) stats to
       # the stats we're actually using in this case.
-      effects_after_renaming = row.effects.map do |effect|
-        if arguments.include?(effect.resource)
-          renamed_resource = table_call[effect.resource]
-
-          effect.rename(renamed_resource)
+      effects_after_renaming = row_data.effects.map do |effect|
+        if renamings[effect.resource]
+          effect.rename(renamings[effect.resource])
         else
           effect
         end
       end
 
-      BuildOption::Choice.new(row['name_suffix'], effects_after_renaming)
-    end
+      BuildOption::Choice.new(row_data['name_suffix'], effects_after_renaming)
   end
 
   # @param choice_data [Array<Hash>, NilClass]
