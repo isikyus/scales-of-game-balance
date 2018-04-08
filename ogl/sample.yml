@@ -21,6 +21,12 @@ resources:
     # "Standard Fantasy" point buy limit.
     maximum: 15
 
+    # Extra resources used to implement basic game rules:
+
+    # You can only take one race.
+  - name: number_of_races
+    maximum: 1
+
 # Statistics that can be calculated about characters.
 statistics:
 
@@ -209,3 +215,18 @@ build_options:
     choices_from_table:
       table: ability-score-point-costs
       $score: DEX_score
+
+  # Races:
+  - name: Common
+    effects:
+    - resource: number_of_races
+      change: +1
+
+  - name: Strong
+    effects:
+    - resource: number_of_races
+      change: +1
+    - statistic: STR_score
+      change: +2
+    - statistic: DEX_score
+      change: -2
