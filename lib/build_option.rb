@@ -25,7 +25,7 @@ class BuildOption
   #
   # @param choice [Choice]
   def choose(choice)
-    raise "Unknown choice #{choice}" unless choices.include?(choice)
+    raise "Unknown choice #{choice.inspect}" unless choices.include?(choice)
 
     new_name = name + choice.name_suffix
     new_effects = effects + choice.effects
