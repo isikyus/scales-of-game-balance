@@ -115,158 +115,97 @@ statistics:
         - BAB
         - DEX
 
+tables:
+
+- name: Ability Score Point Costs
+  id: ability-score-point-costs
+  parameters:
+  - $score
+  rows:
+  - name_suffix: (7)
+    effects:
+      - resource: ability_score_points_spent
+        change: -4
+      - statistic: $score
+        value: 7
+  - name_suffix: (8)
+    effects:
+      - resource: ability_score_points_spent
+        change: -2
+      - statistic: $score
+        value: 8
+  - name_suffix: (9)
+    effects:
+      - resource: ability_score_points_spent
+        change: -1
+      - statistic: $score
+        value: 9
+  - name_suffix: (10)
+    effects:
+      - resource: ability_score_points_spent
+        change: 0
+      - statistic: $score
+        value: 10
+  - name_suffix: (11)
+    effects:
+      - resource: ability_score_points_spent
+        change: 1
+      - statistic: $score
+        value: 11
+  - name_suffix: (12)
+    effects:
+      - resource: ability_score_points_spent
+        change: 2
+      - statistic: $score
+        value: 12
+  - name_suffix: (13)
+    effects:
+      - resource: ability_score_points_spent
+        change: 3
+      - statistic: $score
+        value: 13
+  - name_suffix: (14)
+    effects:
+      - resource: ability_score_points_spent
+        change: 5
+      - statistic: $score
+        value: 14
+  - name_suffix: (15)
+    effects:
+      - resource: ability_score_points_spent
+        change: 7
+      - statistic: $score
+        value: 15
+  - name_suffix: (16)
+    effects:
+      - resource: ability_score_points_spent
+        change: 10
+      - statistic: $score
+        value: 16
+  - name_suffix: (17)
+    effects:
+      - resource: ability_score_points_spent
+        change: 13
+      - statistic: $score
+        value: 17
+  - name_suffix: (18)
+    effects:
+      - resource: ability_score_points_spent
+        change: 17
+      - statistic: $score
+        value: 18
+
 # Things you can do when building a character
 build_options:
 
-# Point buy for abilities
-# TODO: allow these to be parametrised instead.
+  # Point buy for abilities
   - name: Strength Point Buy
     once-only: yes
-    choices:
-      - name_suffix: (7)
-        effects:
-          - resource: ability_score_points_spent
-            change: -4
-          - statistic: STR_score
-            value: 7
-      - name_suffix: (8)
-        effects:
-          - resource: ability_score_points_spent
-            change: -2
-          - statistic: STR_score
-            value: 8
-      - name_suffix: (9)
-        effects:
-          - resource: ability_score_points_spent
-            change: -1
-          - statistic: STR_score
-            value: 9
-      - name_suffix: (10)
-        effects:
-          - resource: ability_score_points_spent
-            change: 0
-          - statistic: STR_score
-            value: 10
-      - name_suffix: (11)
-        effects:
-          - resource: ability_score_points_spent
-            change: 1
-          - statistic: STR_score
-            value: 11
-      - name_suffix: (12)
-        effects:
-          - resource: ability_score_points_spent
-            change: 2
-          - statistic: STR_score
-            value: 12
-      - name_suffix: (13)
-        effects:
-          - resource: ability_score_points_spent
-            change: 3
-          - statistic: STR_score
-            value: 13
-      - name_suffix: (14)
-        effects:
-          - resource: ability_score_points_spent
-            change: 5
-          - statistic: STR_score
-            value: 14
-      - name_suffix: (15)
-        effects:
-          - resource: ability_score_points_spent
-            change: 7
-          - statistic: STR_score
-            value: 15
-      - name_suffix: (16)
-        effects:
-          - resource: ability_score_points_spent
-            change: 10
-          - statistic: STR_score
-            value: 16
-      - name_suffix: (17)
-        effects:
-          - resource: ability_score_points_spent
-            change: 13
-          - statistic: STR_score
-            value: 17
-      - name_suffix: (18)
-        effects:
-          - resource: ability_score_points_spent
-            change: 17
-          - statistic: STR_score
-            value: 18
+    choices_from_table:
+      table: ability-score-point-costs
+      $score: DEX_score
   - name: Dexterity Point Buy
     once-only: yes
-    choices:
-      - name_suffix: (7)
-        effects:
-          - resource: ability_score_points_spent
-            change: -4
-          - statistic: DEX_score
-            value: 7
-      - name_suffix: (8)
-        effects:
-          - resource: ability_score_points_spent
-            change: -2
-          - statistic: DEX_score
-            value: 8
-      - name_suffix: (9)
-        effects:
-          - resource: ability_score_points_spent
-            change: -1
-          - statistic: DEX_score
-            value: 9
-      - name_suffix: (10)
-        effects:
-          - resource: ability_score_points_spent
-            change: 0
-          - statistic: DEX_score
-            value: 10
-      - name_suffix: (11)
-        effects:
-          - resource: ability_score_points_spent
-            change: 1
-          - statistic: DEX_score
-            value: 11
-      - name_suffix: (12)
-        effects:
-          - resource: ability_score_points_spent
-            change: 2
-          - statistic: DEX_score
-            value: 12
-      - name_suffix: (13)
-        effects:
-          - resource: ability_score_points_spent
-            change: 3
-          - statistic: DEX_score
-            value: 13
-      - name_suffix: (14)
-        effects:
-          - resource: ability_score_points_spent
-            change: 5
-          - statistic: DEX_score
-            value: 14
-      - name_suffix: (15)
-        effects:
-          - resource: ability_score_points_spent
-            change: 7
-          - statistic: DEX_score
-            value: 15
-      - name_suffix: (16)
-        effects:
-          - resource: ability_score_points_spent
-            change: 10
-          - statistic: DEX_score
-            value: 16
-      - name_suffix: (17)
-        effects:
-          - resource: ability_score_points_spent
-            change: 13
-          - statistic: DEX_score
-            value: 17
-      - name_suffix: (18)
-        effects:
-          - resource: ability_score_points_spent
-            change: 17
-          - statistic: DEX_score
-            value: 18
+    choices_from_table:
+      table: ability-score-point-costs
+      $score: DEX_score
