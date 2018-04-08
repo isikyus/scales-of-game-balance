@@ -29,10 +29,10 @@ class Genome::Factory
 
     # If the option has choices not yet made, make them.
     # TODO: might need to be recursive?
-    if option.choices
-      option.choose(option.choices.sample(random: @random))
-    else
+    if option.concrete?
       option
+    else
+      option.choose(option.choices.sample(random: @random))
     end
   end
 end

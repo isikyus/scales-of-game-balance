@@ -39,6 +39,10 @@ resources:
       expect(subject.name).to eq 'Strength Point Buy'
     end
 
+    specify 'is not fully chosen' do
+      expect(parser.build_options.first).not_to be_concrete
+    end
+
     describe 'sub-choices' do
       let(:choices) { subject.choices }
 
@@ -84,7 +88,6 @@ resources:
       %q{
 build_options:
   - name: Strength Point Buy
-    multiple: no
     choices:
       - name_suffix: (7)
         effects:
@@ -102,6 +105,19 @@ build_options:
     end
 
     it_should_behave_like 'strength point buy'
+
+    context 'without sub-choices' do
+      let(:data) do
+        %q{
+build_options:
+  - name: Strength Point Buy
+        }
+      end
+
+      specify 'is already fully chosen' do
+        expect(parser.build_options.first).to be_concrete
+      end
+    end
   end
 
   describe 'a build option using tables' do

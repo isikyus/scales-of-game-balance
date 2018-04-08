@@ -52,6 +52,9 @@ class Parser
         choice_data += choices_from_table(table_call, tables)
       end
 
+      # Explicitly set choices to nil if the option doesn't require further decisions.
+      choice_data = nil if choice_data.empty?
+
       BuildOption.new(option['name'],
                       parse_effects(option),
                       choice_data)
