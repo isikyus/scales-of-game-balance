@@ -30,6 +30,27 @@ resources:
     end
   end
 
+  describe 'parsed statistic definitions' do
+
+    context 'for non-derived stats' do
+      let(:data) do
+        %q{
+  statistics:
+    - name: Strength
+      key: STR_score
+      base: 10
+    - name: Base Attack Bonus
+      key: BAB
+      base: 0
+        }
+      end
+
+      specify 'have the correct initial values' do
+        expect(parser.base_statistics).to include('STR_score' => 10, 'BAB' => 0)
+      end
+    end
+  end
+
   shared_examples_for 'strength point buy' do
 
     let(:parsed_options) { parser.build_options }
@@ -37,6 +58,10 @@ resources:
 
     specify 'has the correct name' do
       expect(subject.name).to eq 'Strength Point Buy'
+    end
+
+    specify 'is not fully chosen' do
+      expect(parser.build_options.first).not_to be_concrete
     end
 
     describe 'sub-choices' do
@@ -84,7 +109,6 @@ resources:
       %q{
 build_options:
   - name: Strength Point Buy
-    multiple: no
     choices:
       - name_suffix: (7)
         effects:
@@ -102,6 +126,19 @@ build_options:
     end
 
     it_should_behave_like 'strength point buy'
+
+    context 'without sub-choices' do
+      let(:data) do
+        %q{
+build_options:
+  - name: Strength Point Buy
+        }
+      end
+
+      specify 'is already fully chosen' do
+        expect(parser.build_options.first).to be_concrete
+      end
+    end
   end
 
   describe 'a build option using tables' do

@@ -7,11 +7,6 @@
 # TODO: rename to Build, and extract Genome to its own model.
 class Genome
 
-  # Create a genome of the given length, chosing build options from the given list.
-  def self.new_randomised(length, build_options) 
-    new(length.times.map { random_build_option(build_options) })
-  end
-
   # Create a genome using the given list of build choices.
   # @param build_choices [Array<BuildOption>]
   def initialize(build_choices)
@@ -36,18 +31,5 @@ class Genome
       *indented_choices,
       '>'
     ].join("\n")
-  end
-
-  # Chose a build option from the given list, completely at random.
-  def self.random_build_option(build_options)
-    option = build_options.sample
-
-    # If the option has choices not yet made, make them.
-    # TODO: might need to be recursive?
-    if option.choices
-      option.choose(option.choices.sample)
-    else
-      option
-    end
   end
 end

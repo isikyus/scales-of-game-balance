@@ -1,6 +1,7 @@
-require 'lib/genome'
-
 # Create a new genome (build) based on two given parents.
+
+require 'lib/genome'
+require 'lib/genome/random_build_option'
 
 class Genome::Reproducer
 
@@ -11,7 +12,7 @@ class Genome::Reproducer
   #                                 two in 0.25 - 0.125 = 125% of children, and so on.
   # @param random [Random] dependency-injected random number generator to use.
   def initialize(build_options, mutation_chance, random=Random.new)
-    @build_options = build_options
+    @random_option = Genome::RandomBuildOption.new(build_options, random)
     @mutation_chance = mutation_chance
     @random = random
   end
@@ -91,8 +92,7 @@ class Genome::Reproducer
 
     # 50-50 chance of adding or removing elements.
     if @random.rand < 0.5
-      new_choice = Genome.random_build_option(@build_options)
-      genome.insert(mutationIndex, new_choice)
+      genome.insert(mutationIndex, @random_option.call)
     else
       genome.delete_at(mutationIndex)
     end
