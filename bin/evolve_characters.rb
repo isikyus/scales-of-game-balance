@@ -23,8 +23,8 @@ algorithm_parameters = {
   mutation_chance: 0.05
 }
 
-OptionParser.new do |opts|
-  opts.banner = "Usage: ruby #{$1} [options]"
+option_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: ruby #{$1} [options] [data file]"
 
   opts.on('-p', '--population POPULATION', Integer,
           'Number of organisms in each generation') do |population|
@@ -52,11 +52,18 @@ OptionParser.new do |opts|
           'at least once, 1 in 100 at least twice, and so on') do |mutation_chance|
     algorithm_parameters[:mutation_chance] = mutation_chance
   end
-end.parse!
+end
+
+option_parser.parse!
 
 # Load game system data tables.
-data_file = File.new(File.join(app_dir, 'ogl', 'sample.yml'))
-parser = Parser.new(data_file)
+data_file_path = ARGV.shift || File.join(app_dir, 'ogl', 'sample.yml')
+parser = Parser.new(File.new(data_file_path))
+
+# Show a usage message if we have unknown arguments.
+unless ARGV.empty?
+  option_parser.parse! %w[ --help ]
+end
 
 @random = Random.new
 @character_factory = CharacterFactory.new(parser.constraints)
