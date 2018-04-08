@@ -30,6 +30,27 @@ resources:
     end
   end
 
+  describe 'parsed statistic definitions' do
+
+    context 'for non-derived stats' do
+      let(:data) do
+        %q{
+  statistics:
+    - name: Strength
+      key: STR_score
+      base: 10
+    - name: Base Attack Bonus
+      key: BAB
+      base: 0
+        }
+      end
+
+      specify 'have the correct initial values' do
+        expect(parser.base_statistics).to include('STR_score' => 10, 'BAB' => 0)
+      end
+    end
+  end
+
   shared_examples_for 'strength point buy' do
 
     let(:parsed_options) { parser.build_options }

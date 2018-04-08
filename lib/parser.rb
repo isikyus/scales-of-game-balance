@@ -29,6 +29,21 @@ class Parser
     @constraints ||= (explicit_constraints + implied_constraints)
   end
 
+  # @return [Hash<String, Numeric>] The initial values of statistics
+  #                                 defined in the file. Keys are stat keys.
+  def base_statistics
+    @base_statistics ||= {}.tap do |stats|
+      parsed_data['statistics'].each do |statistic|
+
+        if statistic['base'].is_a? Numeric
+          stats[statistic['key']] = statistic['base']
+        else
+          # TODO: handle calculated statistics
+        end
+      end
+    end
+  end
+
   # The tables defined by the input data file, keyed by ID.
   # @return [Hash<String, Table>]
   def tables
