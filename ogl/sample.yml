@@ -203,7 +203,7 @@ build_options:
     once-only: yes
     choices_from_table:
       table: ability-score-point-costs
-      $score: DEX_score
+      $score: STR_score
   - name: Dexterity Point Buy
     once-only: yes
     choices_from_table:
