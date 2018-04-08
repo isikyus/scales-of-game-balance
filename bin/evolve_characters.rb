@@ -96,11 +96,17 @@ reproducer = Character::Reproducer.new(@name_generator,
                                        algorithm_parameters[:survival_rate],
                                        @random)
 
-algorithm_parameters[:generations].times do |generation|
-  puts
-  puts "Iteration #{generation + 1}:"
+begin
+  algorithm_parameters[:generations].times do |generation|
+    puts
+    puts "Iteration #{generation + 1}:"
 
-  @population = @generation_runner.call(@population)
+    @population = @generation_runner.call(@population)
 
-  print_population
+    print_population
+  end
+
+rescue RunGeneration::ExtinctionError
+  $stderr.puts 'The population has gone extinct! Not enough survived to produce a new generation.'
+  $stderr.puts 'Try increasing the survival rate, or using a larger population'
 end
