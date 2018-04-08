@@ -69,7 +69,8 @@ end
 @random = Random.new
 @genome_factory = Genome::Factory.new(parser.build_options,
                                       algorithm_parameters[:starting_genome_length])
-@character_factory = CharacterFactory.new(parser.constraints)
+@build_factory = Build::Factory.new(parser.constraints)
+@character_factory = CharacterFactory.new(@build_factory)
 @name_generator = NameGenerator.new
 
 # Generate some random characters

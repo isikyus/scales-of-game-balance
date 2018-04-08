@@ -13,9 +13,9 @@ class CharacterFactory
   # The surname to use for randomly-generated characters (with no ancestors).
   NEW_LINEAGE_SURNAME = 'First-of-That-Line'
 
-  # @param constraints [Array<ResourceConstraint>] The constraints within which to build the character.
-  def initialize(constraints)
-    @build_factory = Build::Factory.new(constraints)
+  # @param build_factory [BuildFactory]
+  def initialize(build_factory)
+    @build_factory = build_factory
   end
 
   # Create a new character with no ancestry information.
