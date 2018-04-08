@@ -1,14 +1,14 @@
-require 'lib/character_factory'
+require 'lib/build/factory'
 require 'lib/build_option'
 require 'lib/effect'
 
-RSpec.describe CharacterFactory do
+RSpec.describe Build::Factory do
 
-  subject { CharacterFactory.new(constraints) }
+  subject { Build::Factory.new(constraints) }
 
   describe 'calculating new stats' do
-    let(:genome) do
-      double('Genome', :build_choices => [
+    let(:raw_build_choices) do
+      [
         BuildOption.new('A = 1',
                         [
                           Effect::SetValue.new('A', 1),
@@ -23,11 +23,11 @@ RSpec.describe CharacterFactory do
                         [
                           Effect::SetValue.new('useless', 1)
                         ])
-      ])
+      ]
     end
 
     let(:calculated_stats) do
-      subject.build_character(genome, '').stats
+      subject.build(raw_build_choices).stats
     end
 
     context 'with enough resources' do
