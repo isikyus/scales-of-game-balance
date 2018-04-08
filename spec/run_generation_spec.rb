@@ -60,7 +60,7 @@ RSpec.describe RunGeneration do
   end
 
   describe 'when no individuals survive' do
-    let(:survival_rate) { 0 }
+    let(:survival_rate) { 0.000001 }
 
     specify 'reports an error' do
       expect do

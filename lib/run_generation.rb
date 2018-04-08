@@ -28,7 +28,7 @@ class RunGeneration
     # Find the fittest members of the population.
     survivors = @survival_rate * population.length
 
-    raise ExtinctionError if survivors.zero?
+    raise ExtinctionError if survivors < 1
 
     fittest = population.max_by(survivors) do |individual|
       @scorer.score(individual)
