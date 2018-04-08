@@ -8,8 +8,11 @@ require 'lib/build'
 class Build::Factory
 
   # @param constraints [Array<ResourceConstraint>] The constraints within which to build
-  def initialize(constraints)
+  # @param starting_stats [Hash{String, Numeric]] The stat values to use before applying
+  #                                               build choices.
+  def initialize(constraints, starting_stats)
     @constraints = constraints
+    @starting_stats = starting_stats
   end
 
   # Just run through the list of build choices, accepting all
@@ -22,19 +25,17 @@ class Build::Factory
   # @param raw_build_choices [Array<BuildOption>]
   def build(raw_build_choices)
 
-    resources_left = {}.tap do |res|
-      @constraints.each do |constraint|
+    stats = @starting_stats
 
-        # May be multiple constraints per resource (e.g. minimum and maximum),
-        # but we only need one hash value for each.
-        res[constraint.resource] = 0
-      end
+    # Make sure we have stats for everything used in constraints.
+    @constraints.each do |constraint|
+      stats[constraint.resource] = 0
     end
 
     valid_choices = raw_build_choices.inject([]) do |chosen, choice|
 
-      # What resources would we have left if we applied this change?
-      after_choice = resources_left.dup
+      # What resources & stats would we have if we applied this change?
+      after_choice = stats.dup
       choice.effects.each do |effect|
         after_choice[effect.resource] = effect.new_value(after_choice[effect.resource])
       end
@@ -46,7 +47,7 @@ class Build::Factory
       end
 
       if accept_choice
-        resources_left = after_choice
+        stats = after_choice
         chosen.push(choice)
         chosen
       else
@@ -56,6 +57,6 @@ class Build::Factory
       end
     end
 
-    Build.new(resources_left, valid_choices)
+    Build.new(stats, valid_choices)
   end
 end

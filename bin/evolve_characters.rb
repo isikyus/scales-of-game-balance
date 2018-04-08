@@ -69,7 +69,7 @@ end
 @random = Random.new
 @genome_factory = Genome::Factory.new(parser.build_options,
                                       algorithm_parameters[:starting_genome_length])
-@build_factory = Build::Factory.new(parser.constraints)
+@build_factory = Build::Factory.new(parser.constraints, parser.base_statistics)
 @character_factory = CharacterFactory.new(@build_factory)
 @name_generator = NameGenerator.new
 

@@ -4,7 +4,16 @@ require 'lib/effect'
 
 RSpec.describe Build::Factory do
 
-  subject { Build::Factory.new(constraints) }
+  let(:default_values) do
+    {
+      'A' => 0,
+      'B' => 2,
+      'useless' => 0,
+      'D' => -1
+    }
+  end
+
+  subject { Build::Factory.new(constraints, default_values) }
 
   describe 'calculating new stats' do
     let(:raw_build_choices) do
@@ -63,7 +72,7 @@ RSpec.describe Build::Factory do
       end
 
       specify 'uses default values for stats not set by effects' do
-        
+        expect(calculated_stats).to include('B' => 2, 'D' => -1)
       end
     end
   end
