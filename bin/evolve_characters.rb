@@ -2,8 +2,9 @@
 
 app_dir = File.dirname(File.dirname(File.realdirpath(__FILE__)))
 $: << "#{app_dir}"
-require 'lib/genome'
 require 'lib/parser'
+require 'lib/genome'
+require 'lib/genome/factory'
 require 'lib/name_generator'
 require 'lib/character_factory'
 require 'lib/run_generation'
@@ -66,13 +67,14 @@ unless ARGV.empty?
 end
 
 @random = Random.new
+@genome_factory = Genome::Factory.new(parser.build_options,
+                                      algorithm_parameters[:starting_genome_length])
 @character_factory = CharacterFactory.new(parser.constraints)
 @name_generator = NameGenerator.new
 
 # Generate some random characters
 @population = algorithm_parameters[:population].times.map do
-  genome = Genome.new_randomised(algorithm_parameters[:starting_genome_length],
-                                 parser.build_options)
+  genome = @genome_factory.random_genome
   name = @name_generator.call
   @character_factory.build_character(genome, name)
 end
