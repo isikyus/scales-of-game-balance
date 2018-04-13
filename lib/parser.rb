@@ -197,7 +197,7 @@ class Parser
     renamings = table_call.select { |key, _value| key.start_with?('$') }
     unless renamings.keys == table.parameters
       raise Error, "Reference to table #{table.name} (#{table_id}) with non-matching parameters: "\
-                    "expected #{table.parameters.inspect} but saw #{arguments.inspect}"
+                    "expected #{table.parameters.inspect} but saw #{renamings.keys.inspect}"
     end
 
     table.rows.map do |row|

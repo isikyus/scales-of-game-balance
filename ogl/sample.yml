@@ -37,18 +37,6 @@ statistics:
   - name: Dexterity
     key: DEX_score
     base: 10
-  - name: Constitution
-    key: CON_score
-    base: 10
-  - name: Intelligence
-    key: INT_score
-    base: 10
-  - name: Wisdom
-    key: WIS_score
-    base: 10
-  - name: Charisma
-    key: CHA_score
-    base: 10
 
   # Attribute modifiers.
   # These use the shorter keys as they are more common.
@@ -66,38 +54,6 @@ statistics:
       quotient:
         - sum:
           - DEX_score
-          - -10
-        - 2
-  - name: Constitution modifier
-    key: CON
-    base:
-      quotient:
-        - sum:
-          - CON_score
-          - -10
-        - 2
-  - name: Intelligence modifier
-    key: INT
-    base:
-      quotient:
-        - sum:
-          - INT_score
-          - -10
-        - 2
-  - name: Wisdom modifier
-    key: WIS
-    base:
-      quotient:
-        - sum:
-          - WIS_score
-          - -10
-        - 2
-  - name: Charisma modifier
-    key: CHA
-    base:
-      quotient:
-        - sum:
-          - CHA_score
           - -10
         - 2
 
@@ -133,73 +89,73 @@ tables:
       - resource: ability_score_points_spent
         change: -4
       - statistic: $score
-        value: 7
+        change: -3
   - name_suffix: (8)
     effects:
       - resource: ability_score_points_spent
         change: -2
       - statistic: $score
-        value: 8
+        change: -2
   - name_suffix: (9)
     effects:
       - resource: ability_score_points_spent
         change: -1
       - statistic: $score
-        value: 9
+        change: -1
   - name_suffix: (10)
     effects:
       - resource: ability_score_points_spent
         change: 0
       - statistic: $score
-        value: 10
+        change: 0
   - name_suffix: (11)
     effects:
       - resource: ability_score_points_spent
         change: 1
       - statistic: $score
-        value: 11
+        change: +1
   - name_suffix: (12)
     effects:
       - resource: ability_score_points_spent
         change: 2
       - statistic: $score
-        value: 12
+        change: +2
   - name_suffix: (13)
     effects:
       - resource: ability_score_points_spent
         change: 3
       - statistic: $score
-        value: 13
+        change: +3
   - name_suffix: (14)
     effects:
       - resource: ability_score_points_spent
         change: 5
       - statistic: $score
-        value: 14
+        change: +4
   - name_suffix: (15)
     effects:
       - resource: ability_score_points_spent
         change: 7
       - statistic: $score
-        value: 15
+        change: +5
   - name_suffix: (16)
     effects:
       - resource: ability_score_points_spent
         change: 10
       - statistic: $score
-        value: 16
+        change: +6
   - name_suffix: (17)
     effects:
       - resource: ability_score_points_spent
         change: 13
       - statistic: $score
-        value: 17
+        change: +7
   - name_suffix: (18)
     effects:
       - resource: ability_score_points_spent
         change: 17
       - statistic: $score
-        value: 18
+        change: +8
 
 # Things you can do when building a character
 build_options:

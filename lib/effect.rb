@@ -37,7 +37,7 @@ class Effect
     end
 
     def rename(new_name)
-      self.new(new_name, change)
+      self.class.new(new_name, change)
     end
 
     def inspect

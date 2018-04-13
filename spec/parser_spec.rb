@@ -142,25 +142,26 @@ build_options:
   end
 
   describe 'a build option using tables' do
-    let(:data) do
+    let(:wholly_parametised_table_data) do
       %q{
 tables:
   - name: Ability Score Point Buy
     id: ability-score-point-buy
     parameters:
+    - $points
     - $stat
     rows:
     - name_suffix: (7)
       effects:
-      - resource: ability_score_points_spent
+      - resource: $points
         change: -4
-      - resource: $stat
+      - statistic: $stat
         value: 7
     - name_suffix: (8)
       effects:
-      - resource: ability_score_points_spent
+      - resource: $points
         change: -2
-      - resource: $stat
+      - statistic: $stat
         value: 8
 
 build_options:
@@ -168,11 +169,24 @@ build_options:
     multiple: no
     choices_from_table:
       table: ability-score-point-buy
+      $points: ability_score_points_spent
       $stat: STR_score
       }
     end
 
-    it_should_behave_like 'strength point buy'
+    context 'with everything parameterised' do
+      let(:data) { wholly_parametised_table_data }
+      it_should_behave_like 'strength point buy'
+    end
+
+    context 'with only the stat parameterised' do
+      let(:data) do
+        wholly_parametised_table_data.
+            sub('    - $points', '').
+            gsub('$points', 'ability_score_points_spent')
+      end
+      it_should_behave_like 'strength point buy'
+    end
   end
 
   describe 'an option that cannot be taken multiple times' do
