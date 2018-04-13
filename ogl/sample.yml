@@ -37,18 +37,6 @@ statistics:
   - name: Dexterity
     key: DEX_score
     base: 10
-  - name: Constitution
-    key: CON_score
-    base: 10
-  - name: Intelligence
-    key: INT_score
-    base: 10
-  - name: Wisdom
-    key: WIS_score
-    base: 10
-  - name: Charisma
-    key: CHA_score
-    base: 10
 
   # Attribute modifiers.
   # These use the shorter keys as they are more common.
@@ -66,38 +54,6 @@ statistics:
       quotient:
         - sum:
           - DEX_score
-          - -10
-        - 2
-  - name: Constitution modifier
-    key: CON
-    base:
-      quotient:
-        - sum:
-          - CON_score
-          - -10
-        - 2
-  - name: Intelligence modifier
-    key: INT
-    base:
-      quotient:
-        - sum:
-          - INT_score
-          - -10
-        - 2
-  - name: Wisdom modifier
-    key: WIS
-    base:
-      quotient:
-        - sum:
-          - WIS_score
-          - -10
-        - 2
-  - name: Charisma modifier
-    key: CHA
-    base:
-      quotient:
-        - sum:
-          - CHA_score
           - -10
         - 2
 
