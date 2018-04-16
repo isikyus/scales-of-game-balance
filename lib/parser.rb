@@ -158,7 +158,7 @@ class Parser
       Effect::Change.new(resource_or_stat, effect_data['change'])
     else
       # TODO: should use our Error class.
-      raise "Unrecognised effect type #{effect_data.inpsect}"
+      raise "Unrecognised effect type #{effect_data.inspect}"
     end
   end
 
